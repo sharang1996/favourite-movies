@@ -1,17 +1,17 @@
 package dev.sharanggupta.favouritemovies.dao;
 
 import dev.sharanggupta.favouritemovies.entity.Movie;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Repository
 public class MovieDao implements Dao<Movie> {
@@ -23,46 +23,34 @@ public class MovieDao implements Dao<Movie> {
     }
 
     @Override
-    public Optional<Movie> get(String id) {
-
-        Movie movie;
-        Optional<Movie> optionalMovie;
-        SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
+    public Movie get(String id) {
         try {
-            movie = namedParameterJdbcTemplate.queryForObject("select * from movies where id = :id", namedParameters, new MovieRowMapper());
-            optionalMovie = Optional.ofNullable(movie);
-            System.out.println(movie);
-        } catch (Exception e) {
-            throw new NoSuchElementException();
+            return namedParameterJdbcTemplate.queryForObject("select * from movies where id = :id",
+                    new MapSqlParameterSource().addValue("id", id),
+                    new MovieRowMapper());
+        } catch (DataAccessException e) {
+            throw new NoSuchElementException("Could not find movie with id %s".formatted(id));
         }
-        return optionalMovie;
-    }
-
-    @Override
-    public boolean isPresent(String id) {
-        SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
-        int count = namedParameterJdbcTemplate.queryForObject("select count(*) from movies where id = :id", namedParameters, Integer.class);
-        return count > 0;
     }
 
     @Override
     public List<Movie> getAll() {
-        return null;
+        return new ArrayList<>();
     }
 
     @Override
     public void save(Movie movie) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void update(Movie movie, String[] params) {
-
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void delete(Movie movie) {
-
+        throw new UnsupportedOperationException();
     }
 
     public static class MovieRowMapper implements RowMapper<Movie> {

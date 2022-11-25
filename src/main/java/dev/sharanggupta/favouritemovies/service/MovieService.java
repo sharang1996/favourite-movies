@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @Service
 public class MovieService {
@@ -29,17 +29,11 @@ public class MovieService {
     }
 
     public Movie getMovie(String id) {
-        Movie movie = null;
-        if(movieDao.isPresent(id)){
-            Optional<Movie> optionalMovie = movieDao.get(id);
-            if(optionalMovie.isPresent()) return optionalMovie.get();
+        try {
+            return movieDao.get(id);
+        } catch (NoSuchElementException e) {
+            return getMovieFromApi(id);
         }
-        else{
-            movie = getMovieFromApi(id);
-            movie.setId(id);
-            return movie;
-        }
-        return movie;
     }
 
     private Movie getMovieFromApi(String id) {
@@ -49,8 +43,15 @@ public class MovieService {
         queryParameters.add("plot", "full");
 
         URI uri = UriComponentsBuilder.newInstance()
-                .scheme("http").host(apiHost)
-                .path("/").queryParams(queryParameters).build().toUri();
-        return restTemplate.getForEntity(uri, Movie.class).getBody();
+                .scheme("http")
+                .host(apiHost)
+                .path("/")
+                .queryParams(queryParameters)
+                .build()
+                .toUri();
+        Movie movie = restTemplate.getForEntity(uri, Movie.class).getBody();
+        if(movie == null) throw new NoSuchElementException("Could not find movie with id %s".formatted(id));
+        movie.setId(id);
+        return movie;
     }
 }
