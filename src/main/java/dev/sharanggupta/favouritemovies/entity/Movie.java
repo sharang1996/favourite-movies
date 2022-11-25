@@ -2,6 +2,7 @@ package dev.sharanggupta.favouritemovies.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
@@ -35,6 +36,10 @@ public class Movie {
         this.rating = rating;
         this.runtime = runtime;
         this.genre = genre;
+    }
+
+    public boolean isEmpty(){
+        return StringUtils.isEmpty(id);
     }
 
     public String getId() {
