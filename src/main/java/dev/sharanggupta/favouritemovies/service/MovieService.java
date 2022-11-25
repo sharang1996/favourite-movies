@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
 
 @Service
 public class MovieService {
-    Dao<Movie> movieDao;
+    private final Dao<Movie> movieDao;
     private final RestTemplate restTemplate;
 
     @Value("${omdb.api.key}")

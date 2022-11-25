@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 @Repository
 public class MovieDao implements Dao<Movie> {
 
-    NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public MovieDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
