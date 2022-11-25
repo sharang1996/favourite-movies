@@ -7,10 +7,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class UserDao implements Dao<User>{
+public class UserDao implements Dao<User> {
     @Override
     public Optional<User> get(String id) {
         return Optional.empty();
+    }
+
+    @Override
+    public boolean isPresent(String id) {
+        return false;
     }
 
     @Override

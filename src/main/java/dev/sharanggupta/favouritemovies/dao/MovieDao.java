@@ -1,7 +1,6 @@
 package dev.sharanggupta.favouritemovies.dao;
 
 import dev.sharanggupta.favouritemovies.entity.Movie;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,10 +10,11 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Repository
-public class MovieDao implements Dao<Movie>{
+public class MovieDao implements Dao<Movie> {
 
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
@@ -26,16 +26,23 @@ public class MovieDao implements Dao<Movie>{
     public Optional<Movie> get(String id) {
 
         Movie movie;
-        Optional<Movie> optionalMovie = Optional.empty();
+        Optional<Movie> optionalMovie;
         SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
-        try{
+        try {
             movie = namedParameterJdbcTemplate.queryForObject("select * from movies where id = :id", namedParameters, new MovieRowMapper());
             optionalMovie = Optional.ofNullable(movie);
             System.out.println(movie);
-        }catch (Exception e){
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new NoSuchElementException();
         }
         return optionalMovie;
+    }
+
+    @Override
+    public boolean isPresent(String id) {
+        SqlParameterSource namedParameters = new MapSqlParameterSource().addValue("id", id);
+        int count = namedParameterJdbcTemplate.queryForObject("select count(*) from movies where id = :id", namedParameters, Integer.class);
+        return count > 0;
     }
 
     @Override

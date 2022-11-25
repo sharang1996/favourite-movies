@@ -7,10 +7,10 @@ import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class FavouriteMoviesApplication {
-	public static void main(String[] args) {
-		ApplicationContext applicationContext = SpringApplication.run(FavouriteMoviesApplication.class, args);
-		TestService testService = applicationContext.getBean(TestService.class);
-		testService.print();
-	}
+    public static void main(String[] args) {
+        ApplicationContext applicationContext = SpringApplication.run(FavouriteMoviesApplication.class, args);
+        TestService testService = applicationContext.getBean(TestService.class);
+        testService.print();
+    }
 
 }

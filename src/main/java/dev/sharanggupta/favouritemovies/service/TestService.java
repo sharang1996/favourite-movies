@@ -8,7 +8,7 @@ public class TestService {
     @Value("${omdb.api.key}")
     String apiKey;
 
-    public void print(){
+    public void print() {
         System.out.println(apiKey);
     }
 }

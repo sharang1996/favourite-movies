@@ -1,15 +1,26 @@
 package dev.sharanggupta.favouritemovies.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Movie {
     String id;
+    @JsonProperty("Title")
     String title;
+    @JsonProperty("Plot")
     String plot;
+    @JsonProperty("Poster")
     String poster;
+    @JsonProperty("Released")
     String released;
+    @JsonProperty("imdbRating")
     String rating;
+    @JsonProperty("Runtime")
     String runtime;
+    @JsonProperty("Genre")
     String genre;
 
     public Movie() {
@@ -70,7 +81,7 @@ public class Movie {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(String rating){
         this.rating = rating;
     }
 
