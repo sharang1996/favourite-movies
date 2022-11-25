@@ -39,7 +39,13 @@ public class Movie {
     }
 
     public boolean isEmpty(){
-        return StringUtils.isEmpty(id);
+        return StringUtils.isEmpty(title)
+                &&StringUtils.isEmpty(plot)
+                &&StringUtils.isEmpty(poster)
+                &&StringUtils.isEmpty(released)
+                &&StringUtils.isEmpty(rating)
+                &&StringUtils.isEmpty(runtime)
+                &&StringUtils.isEmpty(genre);
     }
 
     public String getId() {

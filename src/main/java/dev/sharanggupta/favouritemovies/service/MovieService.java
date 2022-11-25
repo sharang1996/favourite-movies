@@ -50,7 +50,8 @@ public class MovieService {
                 .build()
                 .toUri();
         Movie movie = restTemplate.getForEntity(uri, Movie.class).getBody();
-        if(movie==null || movie.isEmpty()) throw new NoSuchElementException("Could not find movie with id %s".formatted(id));
+        if (movie == null || movie.isEmpty())
+            throw new NoSuchElementException("Could not find movie with id %s, host=%s".formatted(id, uri.getHost()));
         movie.setId(id);
         return movie;
     }
