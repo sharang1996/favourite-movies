@@ -38,14 +38,14 @@ public class Movie {
         this.genre = genre;
     }
 
-    public boolean isEmpty(){
-        return StringUtils.isEmpty(title)
-                &&StringUtils.isEmpty(plot)
-                &&StringUtils.isEmpty(poster)
-                &&StringUtils.isEmpty(released)
-                &&StringUtils.isEmpty(rating)
-                &&StringUtils.isEmpty(runtime)
-                &&StringUtils.isEmpty(genre);
+    public static boolean isEmpty(Movie movie){
+        return StringUtils.isEmpty(movie.getTitle())
+                &&StringUtils.isEmpty(movie.getPlot())
+                &&StringUtils.isEmpty(movie.getPoster())
+                &&StringUtils.isEmpty(movie.getReleased())
+                &&StringUtils.isEmpty(movie.getRating())
+                &&StringUtils.isEmpty(movie.getRuntime())
+                &&StringUtils.isEmpty(movie.getGenre());
     }
 
     public String getId() {

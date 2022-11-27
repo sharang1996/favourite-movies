@@ -23,6 +23,9 @@ public class MovieService {
     @Value("${omdb.api.host}")
     String apiHost;
 
+    @Value("${omdb.api.scheme}")
+    String apiScheme;
+
     public MovieService(Dao<Movie> movieDao, RestTemplate restTemplate) {
         this.movieDao = movieDao;
         this.restTemplate = restTemplate;
@@ -43,14 +46,14 @@ public class MovieService {
         queryParameters.add("plot", "full");
 
         URI uri = UriComponentsBuilder.newInstance()
-                .scheme("http")
+                .scheme(apiScheme)
                 .host(apiHost)
                 .path("/")
                 .queryParams(queryParameters)
                 .build()
                 .toUri();
         Movie movie = restTemplate.getForEntity(uri, Movie.class).getBody();
-        if (movie == null || movie.isEmpty())
+        if (movie == null || Movie.isEmpty(movie))
             throw new NoSuchElementException("Could not find movie with id %s, host=%s".formatted(id, uri.getHost()));
         movie.setId(id);
         return movie;
