@@ -1,5 +1,7 @@
 package dev.sharanggupta.favouritemovies.entity;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Objects;
 
 public class User {
@@ -13,8 +15,8 @@ public class User {
 
     public User(int id, String firstName, String lastName, String password) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstName = sanitise(firstName);
+        this.lastName = sanitise(lastName);
         this.password = password;
     }
 
@@ -31,7 +33,7 @@ public class User {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        this.firstName = sanitise(firstName);
     }
 
     public String getLastName() {
@@ -39,7 +41,7 @@ public class User {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = sanitise(lastName);
     }
 
     public String getPassword() {
@@ -48,6 +50,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    private static String sanitise(String field) {
+        return StringUtils.trim(field);
     }
 
     @Override
