@@ -6,13 +6,15 @@ import java.util.List;
 
 @Repository
 public interface Dao<T> {
-    T get(String id);
+  T get(String id);
 
-    List<T> getAll();
+  List<T> getAll();
 
-    void save(T t);
+  void save(T t);
 
-    void update(T t, String[] params);
+  void update(T t, String[] params);
 
-    void delete(T t);
+  void delete(T t);
+
+  boolean contains(String id);
 }
