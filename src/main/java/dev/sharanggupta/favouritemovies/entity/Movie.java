@@ -28,24 +28,24 @@ public class Movie {
     }
 
     public Movie(String id, String title, String plot, String poster, String released, String rating, String runtime, String genre) {
-        this.id = id;
-        this.title = title;
-        this.plot = plot;
-        this.poster = poster;
-        this.released = released;
-        this.rating = rating;
-        this.runtime = runtime;
-        this.genre = genre;
+        this.id = sanitise(id);
+        this.title = sanitise(title);
+        this.plot = sanitise(plot);
+        this.poster = sanitise(poster);
+        this.released = sanitise(released);
+        this.rating = sanitise(rating);
+        this.runtime = sanitise(runtime);
+        this.genre = sanitise(genre);
     }
 
-    public static boolean isEmpty(Movie movie){
+    public static boolean isEmpty(Movie movie) {
         return StringUtils.isEmpty(movie.getTitle())
-                &&StringUtils.isEmpty(movie.getPlot())
-                &&StringUtils.isEmpty(movie.getPoster())
-                &&StringUtils.isEmpty(movie.getReleased())
-                &&StringUtils.isEmpty(movie.getRating())
-                &&StringUtils.isEmpty(movie.getRuntime())
-                &&StringUtils.isEmpty(movie.getGenre());
+                && StringUtils.isEmpty(movie.getPlot())
+                && StringUtils.isEmpty(movie.getPoster())
+                && StringUtils.isEmpty(movie.getReleased())
+                && StringUtils.isEmpty(movie.getRating())
+                && StringUtils.isEmpty(movie.getRuntime())
+                && StringUtils.isEmpty(movie.getGenre());
     }
 
     public String getId() {
@@ -53,7 +53,7 @@ public class Movie {
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = sanitise(id);
     }
 
     public String getTitle() {
@@ -61,7 +61,7 @@ public class Movie {
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.title = sanitise(title);
     }
 
     public String getPlot() {
@@ -69,7 +69,7 @@ public class Movie {
     }
 
     public void setPlot(String plot) {
-        this.plot = plot;
+        this.plot = sanitise(plot);
     }
 
     public String getPoster() {
@@ -77,7 +77,7 @@ public class Movie {
     }
 
     public void setPoster(String poster) {
-        this.poster = poster;
+        this.poster = sanitise(poster);
     }
 
     public String getReleased() {
@@ -85,15 +85,15 @@ public class Movie {
     }
 
     public void setReleased(String released) {
-        this.released = released;
+        this.released = sanitise(released);
     }
 
     public String getRating() {
         return rating;
     }
 
-    public void setRating(String rating){
-        this.rating = rating;
+    public void setRating(String rating) {
+        this.rating = sanitise(rating);
     }
 
     public String getRuntime() {
@@ -101,7 +101,7 @@ public class Movie {
     }
 
     public void setRuntime(String runtime) {
-        this.runtime = runtime;
+        this.runtime = sanitise(runtime);
     }
 
     public String getGenre() {
@@ -109,7 +109,11 @@ public class Movie {
     }
 
     public void setGenre(String genre) {
-        this.genre = genre;
+        this.genre = sanitise(genre);
+    }
+
+    private static String sanitise(String field) {
+        return StringUtils.trim(field);
     }
 
     @Override
