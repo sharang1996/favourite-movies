@@ -34,7 +34,6 @@ public class MovieExceptionHandler {
 
   private String extractRequestDetails(ServletWebRequest servletWebRequest) {
     if (servletWebRequest == null) return "unknown";
-    if (servletWebRequest.getRequest() == null) return "unknown";
 
     HttpServletRequest httpServletRequest = servletWebRequest.getRequest();
     return String.format(
