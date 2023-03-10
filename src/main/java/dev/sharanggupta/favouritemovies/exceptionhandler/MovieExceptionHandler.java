@@ -1,7 +1,11 @@
 package dev.sharanggupta.favouritemovies.exceptionhandler;
 
+import dev.sharanggupta.favouritemovies.controller.MovieController;
+import dev.sharanggupta.favouritemovies.exception.MovieValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,23 +13,23 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.NoSuchElementException;
 
-@ControllerAdvice(basePackages = "dev.sharanggupta.favouritemovies.controller")
-public class GlobalExceptionHandler {
+@ControllerAdvice(basePackageClasses = MovieController.class)
+@Order(Ordered.LOWEST_PRECEDENCE - 1)
+public class MovieExceptionHandler {
+  private static final Logger LOGGER = LoggerFactory.getLogger(MovieExceptionHandler.class);
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
-
-  @ExceptionHandler(NoSuchElementException.class)
+  @ExceptionHandler(MovieValidationException.class)
   public ResponseEntity<String> handleException(
-      NoSuchElementException noSuchElementException, ServletWebRequest servletWebRequest) {
+      MovieValidationException movieValidationException, ServletWebRequest servletWebRequest) {
     String requestDetails = extractRequestDetails(servletWebRequest);
     LOGGER.info(
         "Error message={} Cause={}, Request={}",
-        noSuchElementException.getMessage(),
-        noSuchElementException.getCause(),
+        movieValidationException.getMessage(),
+        movieValidationException.getCause(),
         requestDetails);
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(noSuchElementException.getMessage());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+        .body(movieValidationException.getMessage());
   }
 
   private String extractRequestDetails(ServletWebRequest servletWebRequest) {
