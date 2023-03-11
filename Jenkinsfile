@@ -15,15 +15,14 @@ pipeline {
         }
         stage('package') {
             steps {
-                // Run Maven on a Unix agent.
+                // install dependencies and create jar.
                 sh 'mvn clean install package'
             }
         }
         stage('build') {
             steps {
-                // Run Maven on a Unix agent.
-                sh 'docker build -t favouritemovies .'
-                sh 'ls'
+                // Build a docker image.
+                sh 'mvn spring-boot:build-image -Dspring-boot.build-image.imageName=latestfavouritemovies'
             }
         }
     }
