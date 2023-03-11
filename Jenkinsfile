@@ -16,13 +16,13 @@ pipeline {
         stage('package') {
             steps {
                 // install dependencies and create jar.
-                maven clean install package
+                sh 'mvn clean install package'
             }
         }
         stage('build') {
             steps {
                 // Build a docker image.
-                maven spring-boot:build-image -Dspring-boot.build-image.imageName=latestfavouritemovies
+                sh 'mvn spring-boot:build-image -Dspring-boot.build-image.imageName=latestfavouritemovies'
             }
         }
     }
