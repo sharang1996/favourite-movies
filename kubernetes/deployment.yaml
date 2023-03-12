@@ -1,14 +1,19 @@
-apiVersion: v1
-kind: Service
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   labels:
     app: favouritemovies
   name: favouritemovies
 spec:
-  ports:
-  - port: 8080
-    protocol: TCP
-    targetPort: 8080
+  replicas: 1
   selector:
-    app: favouritemovies
-  type: NodePort
+    matchLabels:
+      app: favouritemovies
+  template:
+    metadata:
+      labels:
+        app: favouritemovies
+    spec:
+      containers:
+      - image: sharanggupta/favouritemovies
+        name: favouritemovies
