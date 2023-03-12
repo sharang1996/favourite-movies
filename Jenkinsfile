@@ -8,21 +8,30 @@ pipeline {
 
     stages {
         stage('checkout') {
+            // Get some code from a GitHub repository
             steps {
-                // Get some code from a GitHub repository
                 checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/sharang1996/favourite-movies']])
             }
         }
         stage('package') {
+            // install dependencies and create jar.
             steps {
-                // install dependencies and create jar.
                 sh 'mvn clean install package'
             }
         }
         stage('build') {
+            // Build a docker image.
             steps {
-                // Build a docker image.
-                sh 'mvn spring-boot:build-image -Dspring-boot.build-image.imageName=latestfavouritemovies'
+                sh 'mvn spring-boot:build-image -Dspring-boot.build-image.imageName=sharanggupta/favouritemovies'
+            }
+        }
+        stage('push') {
+            // Push image to dockerhub
+            steps {
+                withCredentials([string(credentialsId: 'dockerhubtoken', variable: 'dockerhubtoken')]) {
+                    sh 'docker login -u sharanggupta -p ${dockerhubtoken}'
+                }
+                sh 'docker push sharanggupta/favouritemovies'
             }
         }
     }
