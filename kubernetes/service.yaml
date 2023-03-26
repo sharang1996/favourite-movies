@@ -5,10 +5,11 @@ metadata:
     app: favouritemovies
   name: favouritemovies
 spec:
+  type: NodePort
   ports:
   - port: 8080
     protocol: TCP
     targetPort: 8080
+    nodeport: 30000
   selector:
     app: favouritemovies
-  type: NodePort
