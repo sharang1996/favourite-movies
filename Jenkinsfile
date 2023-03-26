@@ -37,7 +37,7 @@ pipeline {
         stage('deploy') {
             // Deploy to cluster
             steps {
-                sh '/home/ec2-user/kubectl apply -f kubernetes/'
+                sh 'sudo /home/ec2-user/kubectl apply -f kubernetes/'
             }
         }
     }
