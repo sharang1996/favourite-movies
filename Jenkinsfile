@@ -34,5 +34,11 @@ pipeline {
                 sh 'docker push sharanggupta/favouritemovies'
             }
         }
+        stage('deploy') {
+            // Deploy to cluster
+            steps {
+                sh 'kubectl apply -f kubernetes/'
+            }
+        }
     }
 }

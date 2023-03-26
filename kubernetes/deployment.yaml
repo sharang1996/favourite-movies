@@ -17,3 +17,9 @@ spec:
       containers:
       - image: sharanggupta/favouritemovies
         name: favouritemovies
+        env:
+          - name: OMDB_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: omdb-api
+                key: omdb.api.key
