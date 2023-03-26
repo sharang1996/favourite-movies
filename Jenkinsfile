@@ -37,7 +37,7 @@ pipeline {
         stage('deploy') {
             // Deploy to cluster
             steps {
-                sh 'sudo /home/ec2-user/kubectl apply -f kubernetes/'
+                sh '/usr/local/bin/./kubectl apply -f kubernetes/ --kubeconfig=/var/lib/jenkins/.kube/config'
             }
         }
     }
